@@ -43,6 +43,36 @@ for actualf in tqdm(files):
     th, img = cv2.threshold(img, th_dos, 255, cv2.THRESH_BINARY)
     bake(False)
 
+# najdi kontury
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # cnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE) #[-2]
+    cnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+# filtruj kontury podle plochy
+    s1 = 1000
+    xcnts = []
+    
+    for cnt in cnts:
+        # osobně nevím, proč to takhle je, ale funguje to...
+        cnt = list(cnt)
+        cnt.pop(-1)
+        for cn in cnt:
+            # print(cn, "XXXXXXX")
+            if s1<cv2.contourArea(cn):
+                
+                xcnts.append(cn)
+# obtáhnutí vybraných kontur
+    for cnt in xcnts:
+        for pix in cnt:
+            for px in pix:
+                i = int(px[1])
+                j = int(px[0])
+                # print(i, "           ", j)
+                # print(img[i][j])
+                img[i][j] = 128
+    # cv2.drawContours(img, xcnts, -1, (0, 255, 0), 3)
+# filtruj kontury podle elipsy
+
+
 
 
 
@@ -91,4 +121,4 @@ for actualf in tqdm(files):
     
     
     
-    # break
+    break
