@@ -1,0 +1,63 @@
+import cv2
+IMPORT
+    from re import I
+    import cv2
+    import random as rn
+    import time
+    import math
+    import numpy as np
+    import sys
+
+READ
+    image = cv2.imread('image.png')
+    relativní
+HEIGHT, WIDTH
+    h, w = image.shape[:2]
+    print("Height = {},  Width = {}".format(h, w))
+RGB
+    v formátu BGR
+    (B, G, R) = image [100, 200]
+    pozice 200 šířka, 100 výška
+    print ("R = {}, G = {}, B = {}".format (R,G,B))
+    jedna barva:
+        B = image [100, 100, 0] (B = 0, G = 1, R = 2)
+CROP
+    image = image[100 : 500, 200 : 700]
+    prostě cropne na pixely 100 - 500 (výška) a 200 - 700 (šířka)
+RESIZE
+    image = cv2.resize(image, (800, 800))
+    změní rozměry na 800 na 800, zdeformuje
+    šířka na 400, zbytek se dopočítá:
+        h, w = image.shape[:2]
+        resize_w = 400
+        ratio = resize_w / w
+        dim = (resize_w, int(h * ratio))
+        image = cv2.resize(image, dim)
+ROTATE
+    h, w = image.shape[:2]
+    center = (w // 2, h // 2)  [počítání centra]
+    matrix = cv2.getRotationMatrix2D(center, -45, 1.0) [vytvoření matrixu]
+    #název_výsledného_matrixu = cv2.getRotationMatrix2D((centrum šířka, centurm výška), otočení ve stupních, zvětšení)     
+    image = cv2.warpAffine(image, matrix, (w, h))
+    #výsledný_image = cv2.warpAffine(vstupní_image, název_matrixu, (šířka, výška))
+WINDOW
+    cv2.namedWindow("Display", cv2.WINDOW_AUTOSIZE)
+    #cv2.namedWindow("název okna", cv2.WINDOW_AUTOSIZE)
+
+    cv2.imshow('Display', image)
+    #cv2.imshow('jaké_okno_na_zobrazení_image', zobraující_se_image)
+
+    cv2.waitKey(0)
+    čeká na zmáčknutí jakékoliv klávesy
+
+    cv2.destroyAllWindows()
+    zavře všechny okna
+WRITE
+    cv2.imwrite("folder/write.png",image)
+    #cv28.imwrite("relativní_kam.jaký_formát", co?)
+RECTANGLE
+    image = cv2.rectangle(image, (1500, 900), (600, 400), (255, 0, 0), 16)
+    #image = cv2.rectangle(na_jaký_img, (w_levá_horní_roh, h_lhr), (w_pravého_dol_rohu(relativní), h_pdr(rel)), (B, G, R), tlustota)
+        tlustota    ←2→, celkem 3
+                    ←8→, celkem 15
+                    px_tlustota = (2 * tlustota) - 1
