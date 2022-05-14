@@ -49,7 +49,7 @@ for actualf in tqdm(files):
     cnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
 # filtruj kontury podle plochy
     s1 = 1000
-    xcnts = []
+    cnts = []
     
     for cnt in cnts:
         # osobně nevím, proč to takhle je, ale funguje to...
@@ -59,9 +59,25 @@ for actualf in tqdm(files):
             # print(cn, "XXXXXXX")
             if s1<cv2.contourArea(cn):
                 
-                xcnts.append(cn)
+                cnts.append(cn)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # obtáhnutí vybraných kontur
-    for cnt in xcnts:
+    for cnt in cnts:
         for pix in cnt:
             for px in pix:
                 i = int(px[1])
@@ -77,38 +93,6 @@ for actualf in tqdm(files):
 
 
     # img = ed.Canny_detector(img, 70)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # ukládání debug
     # edged_img = cv2.putText(edged_img, str(sum(plocha)), (0, 50), cv2.FONT_HERSHEY_SIMPLEX, 2, (255, 255, 255), 2 , cv2.LINE_AA) 
