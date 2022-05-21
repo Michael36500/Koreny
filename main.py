@@ -64,22 +64,46 @@ for actualf in tqdm(files):
                 
                 cnts.append(cn)
 # filtrace kontur pomocí tvaru
+    # filtrovat budu za pomoci větší strana/menší, pokud výsledek bude větší jak 3, tak je to kořen, jinak ne
+    out_el = []
+    out_cnt = []
+    out_box = []
     for cnt in cnts:
         elps = cv2.fitEllipse(cnt)
-        # vrací: ((pozice)(velikost)rotace)
-        rot_rectangle = elps
         
+        # print(elps)
+
+        rot_rectangle = elps
         box = cv2.boxPoints(rot_rectangle) 
         box = np.int0(box) #Convert into integer values
+        stra = elps [1][0]
+        strb = elps [1][1]
 
-        img = cv2.drawContours(img,[box],0,(0,0,255),1)
+        # teď budu dělit. protože čísla vycházejí stra menší než strb, tak nemusím dělat nějak velký ošklivý check, co by porovnal ty dvě čísla, a dělil větší menším.
+        div = strb // stra
+        if div < 1:
+            print("error filtrace kontur, potřeba přidat check")
+        if div > 3:
+            out_el.append(elps)
+            out_cnt.append(cnt)
+            out_box.append(box)
+            img = cv2.drawContours(img,[box],0,(255,255,255),10)
+        # print(stra)
+        # print(strb)
 
-        cv2.imwrite("debug/2.5.elps{}".format(actualf), img)
+        # print()
+
+        # vrací: ((pozice)(velikost)rotace)
+
+
+    
+
+    cv2.imwrite("debug/2.5.elps/{}".format(actualf), img)
     
         
 
 # obtáhnutí vybraných kontur
-    for cnt in cnts:
+    for cnt in out_cnt:
         for pix in cnt:
             for px in pix:
                 i = int(px[1])

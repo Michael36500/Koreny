@@ -23,9 +23,9 @@ for actualf in tqdm(files):
     img_num = img_num + 1
 
 # img read + H,W
-    img = cv2.imread("in/{}".format(actualf)).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
+    # img = cv2.imread("in/{}".format(actualf)).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
+    img = cv2.imread("in/2022_02_23_13_28_40.jpg").astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
     h, w = img.shape[:2]
-
 # crop obrázků
         # zmenšit, oříznout SD / ořiznout 10K
     zmensene = False 
@@ -34,6 +34,10 @@ for actualf in tqdm(files):
         img = img[100 : 540, 70 : 700]        #crop malých, mnou zmenšeny
     else:
         img = img[1480 : 8000, 410 : 10700]        #crop velkých, originálů
+
+        # zamalování loga UP
+        img = cv2.rectangle(img, (8800, 0), (10290, 1409), (0, 0, 0), -1)
+        img = cv2.rectangle(img, (0, 0), (1409, 1409), (0, 0, 255), -1)
     # cv2.imwrite("temp.png", img)
     # img = cv2.imread("temp.png")
     bake(False)
@@ -48,12 +52,12 @@ for actualf in tqdm(files):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     cv2.imwrite("debug/2.treshold/{}".format(actualf), img)
     # cnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_SIMPLE) #[-2]
-    ocnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+    raw_cnts = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
 # filtruj kontury podle plochy
     s1 = 750
-    cnts = []
+    area_cnts = []
     
-    for cnt in ocnts:
+    for cnt in raw_cnts:    
         # osobně nevím, proč to takhle je, ale funguje to...
         cnt = list(cnt)
         cnt.pop(-1)
@@ -61,32 +65,47 @@ for actualf in tqdm(files):
             # print(cn, "XXXXXXX")
             if s1<cv2.contourArea(cn):
                 
-                cnts.append(cn)
+                area_cnts.append(cn)
 # filtrace kontur pomocí tvaru
     # filtrovat budu za pomoci větší strana/menší, pokud výsledek bude větší jak 3, tak je to kořen, jinak ne
     out_el = []
     out_cnt = []
     out_box = []
-    for cnt in cnts:
-        elps = cv2.fitEllipse(cnt)
-        
-        # print(elps)
 
-        rot_rectangle = elps
-        box = cv2.boxPoints(rot_rectangle) 
-        box = np.int0(box) #Convert into integer values
+    elimg = np.copy(img) * 0  # creating a blank to draw lines on
+
+    for cnt in area_cnts:
+        elps = cv2.fitEllipse(cnt)
+        # print(elps)
+        
         stra = elps [1][0]
         strb = elps [1][1]
 
-        # teď budu dělit. protože čísla vycházejí stra menší než strb, tak nemusím dělat nějak velký ošklivý check, co by porovnal ty dvě čísla, a dělil větší menším.
         div = strb // stra
+
+        # nastaví šířku 1 => čáry
+        list_elps = [[elps[0][0], elps[0][1]], [1, elps[1][1]], elps[2]]
+
+        box = cv2.boxPoints(tuple(list_elps)) 
+        box = np.int0(box) #Convert into integer values
+
+
+        # print(stra)
+        # print(strb)
+        # print()
+
+        # teď budu dělit. protože čísla vycházejí stra menší než strb, tak nemusím dělat nějak velký ošklivý check, co by porovnal ty dvě čísla, a dělil větší menším.
         if div < 1:
-            print("error filtrace kontur, potřeba přidat check")
+            print("error filtrace kontur, potřebuješ přidat check")
         if div > 3:
             out_el.append(elps)
             out_cnt.append(cnt)
             out_box.append(box)
-            img = cv2.drawContours(img,[box],0,(255,255,255),10)
+
+            elimg = cv2.drawContours(elimg,[box],0,(255,255,255),20)
+            # img = cv2.line(img, box, pt2, color, thickness, lineType, shift)
+    # print()
+    cv2.imwrite("debug/3.elps/{}".format(actualf), elimg)
         # print(stra)
         # print(strb)
 
@@ -97,7 +116,6 @@ for actualf in tqdm(files):
 
     
 
-    cv2.imwrite("debug/2.5.elps/{}".format(actualf), img)
     
         
 
@@ -113,8 +131,8 @@ for actualf in tqdm(files):
     # print(cnts)
 
     timg = np.copy(img) * 0  # creating a blank to draw cnts on
-    cv2.drawContours(timg, cnts, -1, (255, 255, 255), 3)
-    cv2.imwrite("debug/3.kontury/{}".format(actualf), timg)
+    cv2.drawContours(timg, area_cnts, -1, (255, 255, 255), 3)
+    cv2.imwrite("debug/4.kontury/{}".format(actualf), timg)
 
 
 
