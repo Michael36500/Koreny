@@ -29,8 +29,8 @@ for actualf in tqdm(files):
 
 # crop obrázků
         # zmenšit, oříznout SD / ořiznout 10K
-    zmenseni = False 
-    if zmenseni == True:
+    zmensene = False 
+    if zmensene == True:
         img = cv2.resize(img, (800, 600))                     # POZOR, ROZMĚRY SE NEPOČÍTAJÍ
         img = img[100 : 540, 70 : 700]        #crop malých, mnou zmenšeny
     else:
@@ -39,6 +39,7 @@ for actualf in tqdm(files):
     # img = cv2.imread("temp.png")
     bake(False)
     cv2.imwrite("debug/1.zmenseny/{}".format(actualf), img)
+
 # th efekt
     th_dos = 40
     th, img = cv2.threshold(img, th_dos, 255, cv2.THRESH_BINARY)
@@ -62,6 +63,20 @@ for actualf in tqdm(files):
             if s1<cv2.contourArea(cn):
                 
                 cnts.append(cn)
+# filtrace kontur pomocí tvaru
+    for cnt in cnts:
+        elps = cv2.fitEllipse(cnt)
+        # vrací: ((pozice)(velikost)rotace)
+        rot_rectangle = elps
+        
+        box = cv2.boxPoints(rot_rectangle) 
+        box = np.int0(box) #Convert into integer values
+
+        img = cv2.drawContours(img,[box],0,(0,0,255),1)
+
+        cv2.imwrite("debug/2.5.elps{}".format(actualf), img)
+    
+        
 
 # obtáhnutí vybraných kontur
     for cnt in cnts:
@@ -74,28 +89,29 @@ for actualf in tqdm(files):
                 img[i][j] = 255
     # print(cnts)
 
-    timg = np.copy(img) * 0  # creating a blank to draw lines on
+    timg = np.copy(img) * 0  # creating a blank to draw cnts on
     cv2.drawContours(timg, cnts, -1, (255, 255, 255), 3)
     cv2.imwrite("debug/3.kontury/{}".format(actualf), timg)
+
+
 
 # najití čar
 
     # Then, use HoughLinesP to get the lines. You can adjust the parameters for better performance.
 
-    rho = 1  # distance resolution in pixels of the Hough grid
-    theta = 10 * np.pi / 180  # angular resolution in radians of the Hough grid
-    threshold = 140  # minimum number of votes (intersections in Hough grid cell)
-    min_line_length = 40  # minimum number of pixels making up a line
-    max_line_gap = 100  # maximum gap in pixels between connectable line segments
-    limg = np.copy(img) * 0  # creating a blank to draw lines on
+    # rho = 1  # distance resolution in pixels of the Hough grid
+    # theta = 10 * np.pi / 180  # angular resolution in radians of the Hough grid
+    # threshold = 140  # minimum number of votes (intersections in Hough grid cell)
+    # min_line_length = 40  # minimum number of pixels making up a line
+    # max_line_gap = 100  # maximum gap in pixels between connectable line segments
 
     # Run Hough on edge detected image
     # Output "lines" is an array containing endpoints of detected line segments
-    lines = cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), min_line_length, max_line_gap)
+    # lines = cv2.HoughLinesP(img, rho, theta, threshold, np.array([]), min_line_length, max_line_gap)
     # print(lines)
 # ztmavení obrázku
-    img = img // 5
-    bake(False)
+    # img = img // 5
+    # bake(False)
 
 # # filtrace čar
 #     for line in lines:
@@ -104,10 +120,11 @@ for actualf in tqdm(files):
 # zakreslení čar
     # !!!!!!!!!!!!!!!!!!!! limg = temp img na čáry, aby se dali uložit a nepřepsal se původní
 
-    for line in lines:
-        for x1,y1,x2,y2 in line:
-            cv2.line(limg,(x1,y1),(x2,y2),255,1)
-    bake(False)
+    # limg = np.copy(img) * 0  # creating a blank to draw lines on
+    # for line in lines:
+    #     for x1,y1,x2,y2 in line:
+    #         cv2.line(limg,(x1,y1),(x2,y2),255,1)
+    # bake(False)
 
 # # úprava obrázku s čarami
 #     blur = 10
@@ -193,8 +210,8 @@ for actualf in tqdm(files):
 # ukládání originálů
     # img = cv2.putText(img, str(min_cm), (0, 1000), cv2.FONT_HERSHEY_SIMPLEX, 40, (255, 255, 255), 40, cv2.LINE_AA)
     # img = cv2.putText(img, str(sum(plocha)), (0, 2000), cv2.FONT_HERSHEY_SIMPLEX, 40, (255, 255, 255), 40, cv2.LINE_AA)
-    cv2.imwrite("out/{}".format(actualf), limg)
+    cv2.imwrite("out/{}".format(actualf), img)
     
     
     
-    # break 
+    break 
