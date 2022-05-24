@@ -27,7 +27,7 @@ for actualf in tqdm(files):
     img = cv2.imread("in/2022_02_23_13_28_40.jpg").astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
     h, w = img.shape[:2]
 # crop obrázků
-        # zmenšit, oříznout SD / ořiznout 10K
+    # zmenšit, oříznout SD / ořiznout 10K
     zmensene = False 
     if zmensene == True:
         img = cv2.resize(img, (800, 600))                     # POZOR, ROZMĚRY SE NEPOČÍTAJÍ
@@ -37,7 +37,7 @@ for actualf in tqdm(files):
 
         # zamalování loga UP
         img = cv2.rectangle(img, (8800, 0), (10290, 1409), (0, 0, 0), -1)
-        img = cv2.rectangle(img, (0, 0), (1409, 1409), (0, 0, 255), -1)
+        img = cv2.rectangle(img, (0, 0), (1409, 1409), (0, 0, 0), -1)
     # cv2.imwrite("temp.png", img)
     # img = cv2.imread("temp.png")
     bake(False)
@@ -85,10 +85,8 @@ for actualf in tqdm(files):
 
         # nastaví šířku 1 => čáry
         list_elps = [[elps[0][0], elps[0][1]], [1, elps[1][1]], elps[2]]
-
         box = cv2.boxPoints(tuple(list_elps)) 
         box = np.int0(box) #Convert into integer values
-
 
         # print(stra)
         # print(strb)
@@ -96,16 +94,18 @@ for actualf in tqdm(files):
 
         # teď budu dělit. protože čísla vycházejí stra menší než strb, tak nemusím dělat nějak velký ošklivý check, co by porovnal ty dvě čísla, a dělil větší menším.
         if div < 1:
-            print("error filtrace kontur, potřebuješ přidat check")
+            print("error filtrace kontur, potřebuješ přidat check na řádku 99")
         if div > 3:
             out_el.append(elps)
             out_cnt.append(cnt)
             out_box.append(box)
 
             elimg = cv2.drawContours(elimg,[box],0,(255,255,255),20)
+            box = []
             # img = cv2.line(img, box, pt2, color, thickness, lineType, shift)
     # print()
     cv2.imwrite("debug/3.elps/{}".format(actualf), elimg)
+
         # print(stra)
         # print(strb)
 
@@ -255,4 +255,4 @@ for actualf in tqdm(files):
     
     
     
-    break 
+    # break 
