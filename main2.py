@@ -19,13 +19,21 @@ img_num = 0
 
 for actualf in tqdm(files):
 
+
 # terminal output
     img_num = img_num + 1
 
 # img read + H,W
     # img = cv2.imread("in/{}".format(actualf)).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
-    img = cv2.imread("in/2022_02_23_13_28_40.jpg").astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
+    img = cv2.imread("in/{}".format(actualf)).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
     h, w = img.shape[:2]
+    
+    num_of_w = 0
+    for a in img:
+        if a[1] [1] > 15:
+                num_of_w = num_of_w + 1
+    print(num_of_w)
+
 # crop obrázků
     # zmenšit, oříznout SD / ořiznout 10K
     zmensene = False 
