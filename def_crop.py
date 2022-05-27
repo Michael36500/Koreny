@@ -25,11 +25,11 @@ def crop (source):
 img = cv2.imread("debug/2.cropped/2022_02_23_12_45_14.jpg", 0)
 cv2.namedWindow("opencv", cv2.WINDOW_AUTOSIZE)
 
-img = cv2.resize(img, (1920, 1080))
+img = cv2.resize(img, (800, 600))
 
 # for a in range(50):
     # print(a)
-thr = crop(img, 10)
+thr = crop(img)
 cv2.imshow("opencv", thr)
 cv2.waitKey(0)
 
