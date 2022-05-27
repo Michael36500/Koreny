@@ -32,7 +32,7 @@ for actualf in tqdm(files):
     for a in img:
         if a[1] [1] > 15:
                 num_of_w = num_of_w + 1
-    print(num_of_w)
+    # print(num_of_w)
 
 # crop obrázků
     # zmenšit, oříznout SD / ořiznout 10K
