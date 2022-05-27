@@ -17,21 +17,29 @@ import def_threshold as thresh
 
 
 # najde všechny soubory v IN složce, aby se mohl loopnout
-inputs = os.listdir("in/")
+inputs_jpg = os.listdir("in/")
+inputs = []
+for a in inputs_jpg:
+    l = len(a)
+    short = a[:l - 4]
+    inputs.append(short)
 # vynechávám img_num, protože ho nepotřebuji
 
 for actual_img in tqdm(inputs):
 
-    gray = cv2.imread("in/{}".format(actual_img), 0).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
+    gray = cv2.imread("in/{}.jpg".format(actual_img), 0).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
     # gray = cv2.cvtColor(source, cv2.COLOR_RGB2GRAY)
-    cv2.imwrite("debug/1.BW/{}".format(actual_img), gray)
+    cv2.imwrite("debug/1.BW/{}.png".format(actual_img), gray)
+    # print("1.BW")
 
     cropped = crop.crop (gray)
-    cv2.imwrite("debug/2.cropped/{}".format(actual_img), cropped)
+    cv2.imwrite("debug/2.cropped/{}.png".format(actual_img), cropped)
+    # print("2.cropped")
 
     # 10 je možno vyladit
     threshed = thresh.th(cropped, 10)
-    cv2.imwrite("debug/3.thresh/{}".format(actual_img), threshed)
+    cv2.imwrite("debug/3.thresh/{}.png".format(actual_img), threshed)
+    # print("3.thresh")
     
     
     
@@ -39,5 +47,4 @@ for actual_img in tqdm(inputs):
     
     
     
-    
-    break
+    # break

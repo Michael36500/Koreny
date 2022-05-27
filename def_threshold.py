@@ -4,7 +4,7 @@ import numpy
 
 def th (source, times):
     sum = 0
-    h, w = img.shape[:2]
+    h, w = source.shape[:2]
 
     for a in source:
         for b in a:
@@ -18,15 +18,15 @@ def th (source, times):
 
 
 
-img = cv2.imread("debug/2.cropped/2022_02_23_12_45_14.jpg", 0)
-cv2.namedWindow("opencv", cv2.WINDOW_AUTOSIZE)
+# img = cv2.imread("debug/2.cropped/2022_02_23_12_45_14.jpg", 0)
+# cv2.namedWindow("opencv", cv2.WINDOW_AUTOSIZE)
 
-img = cv2.resize(img, (1920, 1080))
+# img = cv2.resize(img, (1920, 1080))
 
-# for a in range(50):
-    # print(a)
-thr = th(img, 10)
-cv2.imshow("opencv", thr)
-waitKey(0)
+# # for a in range(50):
+#     # print(a)
+# thr = th(img, 10)
+# cv2.imshow("opencv", thr)
+# waitKey(0)
 
 
