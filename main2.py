@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import os
-import cannyED as ed
+# import cannyED as ed
 from tqdm import tqdm 
 
 # bake je funukce, co a) přepočítá obrázek b) uloží a znovu otevře obrázek
@@ -263,4 +263,4 @@ for actualf in tqdm(files):
     
     
     
-    # break 
+    break 
