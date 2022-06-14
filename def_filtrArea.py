@@ -8,9 +8,10 @@ def filtrArea (cnts):
     def TrueFilter(cnts, s1):
         area_cnts = []
         for cnt in cnts:    
+            print(cnt)
         # osobně nevím, proč to takhle je, ale funguje to...
             cnt = list(cnt)
-            cnt.pop(-1)
+            # cnt.pop(-1)
             for cn in cnt:
                 # print(cn, "XXXXXXX")
                 if s1<cv2.contourArea(cn):
@@ -20,6 +21,7 @@ def filtrArea (cnts):
 
     # while True najde dynamicky ideální tresh plochy
 
+    # s1 -> základ thresholdu, a od něj jdu po 10 nahoru, dokud se nedostanu k THRESH (max. počet objektů, pokud jich je +THRESH, tak zvýším S1 o 10, znovu)
     s1 = 10
     thresh = 250
     while True:
