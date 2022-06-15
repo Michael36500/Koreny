@@ -42,7 +42,7 @@ if show_imgs == True:
 
 # for actual_img in tqdm(inputs):
 for actual_img in inputs:
-
+    print(actual_img)
     # load
     bw = cv2.imread("in/{}.jpg".format(actual_img), 0).astype("float64") # 0 protože chci černobílý obrázek (pro krok úprava)
     # bw = cv2.cvtColor(source, cv2.COLOR_RGB2GRAY)
@@ -52,7 +52,7 @@ for actual_img in inputs:
     original = cv2.imread("in/{}.jpg".format(actual_img))
     original = crop.crop(original)
 
-    print("BW")
+    # print("BW")
     if show_imgs == True:
         frame = cv2.resize(bw, (979, 652))
         cv2.imshow('win', frame)
@@ -63,7 +63,7 @@ for actual_img in inputs:
     cropped = crop.crop (bw)
     cv2.imwrite("debug/2.cropped/{}.png".format(actual_img), cropped)
     
-    print("cropped")
+    # print("cropped")
     if show_imgs == True:
         frame = cv2.resize(cropped, (979, 652))
         cv2.imshow('win', frame)
@@ -74,7 +74,7 @@ for actual_img in inputs:
     # 10 je možno vyladit
     cv2.imwrite("debug/3.thresh/{}.png".format(actual_img), threshed)
 
-    print("threshed")
+    # print("threshed")
     if show_imgs == True:
         frame = cv2.resize(threshed, (979, 652))
         cv2.imshow('win', frame)
@@ -82,20 +82,31 @@ for actual_img in inputs:
 
     # raw CNTs
         # musim bejknout
-    threshed = bake.bake(threshed, False)
-    raw_cnts = findCNTs.findCNTs(threshed)
+    # threshed = bake.bake(threshed, False)
+    # print(threshed)
+    # raw_cnts = findCNTs.findCNTs(actual_img)
+    # source = cv2.cvtColor(source, cv2.COLOR_BGR2GRAY)
+    # print(source)
+    # bw = cv2.cvtColor(source, cv2.COLOR_BGR2GRAY)
+    # bake.bake(source)
+    raw_cnts = cv2.findContours(threshed, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)[0]
+    # write = open("cnts.txt", "w")
+    # write.write(str(cnts))
+    # print(cnts)
+
 
     # print(raw_cnts)
     
     # area  
-    area_cnts = filtrArea.filtrArea(raw_cnts)
+    print(raw_cnts[2])
+    area_cnts = filtrArea.filtrArea(raw_cnts)  
 
-    # # cv2.drawContours(, area_cnts, -1, (255, 2255, 255), 3)
-    # area_img = cv2.drawContours(original, area_cnts, -1, (255, 255 ,255), 3)
+    # cv2.drawContours( area_cnts, -1, (255, 255, 255), 3)
+    area_img = cv2.drawContours(original, area_cnts, -1, (255, 255,255), 3)
 
-    # cv2.imwrite("debug/4.CNTs/{}.png".format(actual_img), area_img)
+    cv2.imwrite("debug/4.CNTs/{}.png".format(actual_img), area_img)
 
-    # if show_imgs == True:
+    # if show_imgs == True: x   
     #     frame = cv2.resize((area_img), (979, 652))
     #     cv2.imshow('win', frame)
     #     cv2.waitKey(200)
