@@ -1,0 +1,21 @@
+hard
+    proměná v funkci bake
+    určuje, jestli budu bakovat přes uložení, nebo jenom přepočítání
+
+bake_img
+    proměná v funkci bake
+    = vstupní obrázek
+
+
+inputs 
+    soubory v složce IN, přes které se budu loopovat
+
+actual_img
+    string
+    = aktuální obrázek, přes kterej se loopnu
+
+source
+    vstupní obrázek
+
+gray 
+    šedý source
