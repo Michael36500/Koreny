@@ -33,8 +33,8 @@ for a in inputs_jpg:
 
 # předpřipravím si loop
 for actual_img in tqdm(inputs):
-    actual_img = "2022_02_23_12_50_13"
-    save_debug = False
+    # actual_img = "2022_02_23_12_50_13"
+    save_debug = True
 
 
     # loadnu obrázek
