@@ -347,16 +347,16 @@ for actual_img in tqdm(inputs):
     orig = cv2.rectangle(orig, (10000, 1211), (11800, 1930), (0), -1)
     orig = cv2.rectangle(orig, (0, 1100), (860, 2700), (0), -1)
 
-    # # modře ty, co jsou vyfiltrovaný ven
-    # orig = cv2.drawContours(orig, raw_cnts[0], -1, (0, 255, 0), 5)
-    # # modře ty, co jsou vyfiltrovaný ven
-    # orig = cv2.drawContours(orig, hw_area_cnts, -1, (255, 0, 0), 10)
-    # červeně co zůstaly
+    # zeleně ty, co byly autodetekovány
+    orig = cv2.drawContours(orig, raw_cnts[0], -1, (0, 255, 0), 5)
+    # modře ty, co jsou vyfiltrovaný ven pomocí plochy
+    orig = cv2.drawContours(orig, hw_area_cnts, -1, (255, 0, 0), 10)
+    # červeně co zůstaly pokud jsou blízko 
     orig = cv2.drawContours(orig, k_hw_area_cnts, -1, (0, 0, 255), 15)
 
-    cv2.imwrite("debug/5.hw_area_filtr copy/{}.png".format(actual_img), orig)
+    cv2.imwrite("debug/5.hw_area_filtr/{}.png".format(actual_img), orig)
 
-
+    
 
 
 
