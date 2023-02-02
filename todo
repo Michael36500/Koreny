@@ -1,6 +1,8 @@
 ## Furst
-- [ ] opravit otsu s čtvercama na list hodnot / otsu th víc otevřený
+- [x] opravit otsu s čtvercama na list hodnot / otsu th víc otevřený
+- [x] to co je u krajů
 - [ ] to co je pár pixlů
+- [ ] kužel
 - [ ] malí a daleko od velkých
   - [ ] najít super velký
   - [ ] zkombinovat IDK
