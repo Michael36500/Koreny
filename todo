@@ -1,11 +1,11 @@
 ## Furst
 - [x] opravit otsu s čtvercama na list hodnot / otsu th víc otevřený
 - [x] to co je u krajů
-- [ ] to co je pár pixlů
-- [ ] kužel
-- [ ] malí a daleko od velkých
-  - [ ] najít super velký
-  - [ ] zkombinovat IDK
+- [x] to co je pár pixlů
+- [x] kužel
+- [x] solidita (obvod:plocha) - protože malí a daleko fungovalo blbě, posouvám výš
+- [x] fit box dokola, zase solidita - protože malí a daleko fungovalo blbě, posouvám výš
+- [x] malí a daleko od velkých
+  - [x] najít super velký
+  - [x] zkombinovat IDK
 - [ ] pro každý objekt lokální otsu
-- [ ] solidita (obvod:plocha)
-- [ ] fit box dokola, zase solidita
