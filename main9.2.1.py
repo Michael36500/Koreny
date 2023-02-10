@@ -31,9 +31,6 @@ for a in inputs_jpg:
 # předpřipravím si loop
 for actual_img in tqdm(inputs):
     print(actual_img)
-    # actual_img = "2022_02_23_12_57_17"
-    # actual_img = "2022_02_23_13_01_23"
-    # actual_img = "2022_02_23_13_26_44"
     save_debug = False
 
 
@@ -232,7 +229,7 @@ for actual_img in tqdm(inputs):
             smaly_nekraj_cnts.append(cnt)
 
 
-    if True:
+    if save_debug:
         save = cv2.drawContours(orig_bw.copy(), smaly_nekraj_cnts, -1, (255, 0, 0), 10)
         cv2.imwrite("debug/5.smaly/{}.png".format(actual_img), save)
 
@@ -300,9 +297,9 @@ for actual_img in tqdm(inputs):
             kuzel_smaly_nekraj_cnts.append(cnt)
 
     # uložím
-    if True:
+    if save_debug:
         save = cv2.drawContours(orig_bw.copy(), kuzel_smaly_nekraj_cnts, -1, (255, 0, 0), 10)
-        cv2.imwrite("debug/6.kuzel//{}.png".format(actual_img), save)
+        cv2.imwrite("debug/6.kuzel/{}.png".format(actual_img), save)
 
 
     # obvodplocha
@@ -314,9 +311,9 @@ for actual_img in tqdm(inputs):
             obvodplocha_kuzel_smaly_nekraj_cnts.append(cnt)
 
     # save
-    if True:
+    if save_debug:
         save = cv2.drawContours(orig_bw.copy(), obvodplocha_kuzel_smaly_nekraj_cnts, -1, (255, 0, 0), -1)
-        cv2.imwrite("debug/7.obvodplocha//{}.png".format(actual_img), save)
+        cv2.imwrite("debug/7.obvodplocha/{}.png".format(actual_img), save)
 
 
     # čtverec dokola
@@ -351,8 +348,8 @@ for actual_img in tqdm(inputs):
     top_15 = []
     top_thresh = cnt_area.copy()
     top_thresh = np.sort(-top_thresh) * -1
-    if len(fitctverec_obvodplocha_kuzel_smaly_nekraj_cnts) > 15:
-        top_thresh = top_thresh[15]
+    if len(fitctverec_obvodplocha_kuzel_smaly_nekraj_cnts) > 25:
+        top_thresh = top_thresh[25]
     elif len(fitctverec_obvodplocha_kuzel_smaly_nekraj_cnts) > 0:
         top_thresh = top_thresh[len(fitctverec_obvodplocha_kuzel_smaly_nekraj_cnts) - 1]
     else:
@@ -363,10 +360,10 @@ for actual_img in tqdm(inputs):
             top_15.append(cnt)
 
     # uložím
-    if False:
+    if save_debug:
         save = cv2.drawContours(orig_bw.copy() * 0, top_15, -1, (255, 0, 0), -1)
         
-        cv2.imwrite("debug/7.supervelky/{}.png".format(actual_img), save)
+        cv2.imwrite("debug/8_5.supervelky/{}.png".format(actual_img), save)
 
     # idk funkce co vezme A a B a najde nejkratší vzdálenots / stack overflow goes brrr
     def find_closest(cnt1,cnt2):
@@ -378,7 +375,7 @@ for actual_img in tqdm(inputs):
 
     # samotné třízení
     distancet_obvodplocha_kuzel_smaly_nekraj_cnts = []
-    thresh = 500
+    thresh = 1000
 
 
     for cnt in kuzel_smaly_nekraj_cnts:
@@ -392,5 +389,14 @@ for actual_img in tqdm(inputs):
     if True:
         save = cv2.drawContours(orig_bw.copy(), distancet_obvodplocha_kuzel_smaly_nekraj_cnts, -1, (255, 0, 0), -1)
         cv2.imwrite("debug/9.distancet/{}.png".format(actual_img), save)
+
+
+    # kombinace před a po distancet
+    if True:
+        color_orig = cv2.cvtColor(orig_bw.copy(),cv2.COLOR_GRAY2RGB)
+        save = cv2.drawContours(color_orig, obvodplocha_kuzel_smaly_nekraj_cnts, -1, (0, 255, 0), -1)
+        save = cv2.drawContours(save, distancet_obvodplocha_kuzel_smaly_nekraj_cnts, -1, (0, 0, 255), -1)
+
+        cv2.imwrite("debug/9_5.check/{}.png".format(actual_img), save)
 
 
