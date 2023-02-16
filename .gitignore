@@ -1,5 +1,7 @@
-/in
-/debug
-/debug_old
-/5.prumploch
-/5.smaly
+# /in
+# /debug
+# /debug_old
+# /5.prumploch
+# /5.smaly
+*.png
+*.jpg

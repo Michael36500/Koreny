@@ -221,7 +221,7 @@ for actual_img in tqdm(inputs):
 
 
     # super malý + saVe
-    thresh = 200
+    thresh = 300
     smaly_nekraj_cnts = []
 
     for cnt in nekraj_cnts:
