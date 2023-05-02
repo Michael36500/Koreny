@@ -1,0 +1,16 @@
+- v kódu je označeno znakem ←
+
+- OTSU
+  - ke konci výběr hodnoty
+- KRAJE
+  - první řádek
+- super malý + save
+  - thresh na super malý
+- kuzel
+  - tvar pod vytvoření kuželů
+  - threshe
+- obvodplocha
+  - thresh
+- čtverec dokola
+  - thresh
+- a distance transform je divenej -> vynechávám
