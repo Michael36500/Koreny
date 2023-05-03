@@ -1,0 +1,28 @@
+- když je to kulatý, ale kořen, tak nechat
+- čtverce
+- tadeáš
+  - vzít lajnu zleva doprava a hledat bump
+- max 5 filtrů
+- poměr velká a malá poloosa
+- malý daleko od velkých
+- rotace - co vede zvrhu dolů, tak pryč (kolmo k kuželi)
+- adaptivní otsu - nástřel, jít 
+- threshold 
+- lepší otsu, nějak ty čtverce aby to bylo samotný, u každého okýnka jinej thresh
+- zkombinovat otsu s edgem
+- střelím thresh, a pak najdu kousky
+- ideální thresh - nechá co nejméně objektů co nejvíc u sebe 
+- nejlepší - nejméně kousků slitý v co nejméně čárách (poměrem poloos)
+- rozumně thresh, ale neřezat okýnka stejně - víc pracovat s kachličkama
+- udělat spoustu threshů, a pak vidět, co dostanux
+  - podívat se na celkovou plochu toho, co dostanu, a pak se to stabilizuje
+  - když na černo, tak dostanu nesouvislý věci
+  - čtverec aa - najde 10a bílých a zbytek černých
+    - může i 20 a
+    - ale když 50a -> málo
+    - 500x500
+    - a pak jít trošku 
+- nechá jednu lineární strukturu
+- max 100 řádků, aby to nebylo overfittovaný
+- víc
+- prost si pohrát s otsuem
